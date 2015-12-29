@@ -5,17 +5,18 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
-  # Remembers a user in a persistent session.
-  #cookies[:remember_token] = { value:   remember_token,
-  #                            expires: 20.years.from_now.utc }
+  def year_cookie
+    cookies[:remember_token] = { value:   remember_token, expires: 1.year.from_now.utc }
+  end
 
+  # Remembers a user in a persistent session.
   def remember(user)
     user.remember
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  # Returns the current logged-in user (if any).
+  # Returns the user corresponding to the remember token cookie.
   def current_user
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
