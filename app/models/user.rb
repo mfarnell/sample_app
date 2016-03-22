@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
 
     attr_accessor :remember_token
 
+    #set pagniation value
+    self.per_page = 10
+
 
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
@@ -14,7 +17,8 @@ class User < ActiveRecord::Base
               uniqueness: { case_sensitive: false }
               
     has_secure_password
-    validates :password, presence: true, length: { minimum: 6 }
+    validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
 
   # Returns the hash digest of the given string.
   def User.digest(string)
